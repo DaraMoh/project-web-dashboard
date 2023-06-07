@@ -1,5 +1,5 @@
 // set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 20, left: 20},
+var margin = {top: 20, right: 20, bottom: 20, left: 50},
 width = 350 - margin.left - margin.right,
 height = 250 - margin.top - margin.bottom;
 
@@ -50,9 +50,10 @@ d3.csv("data.csv", function(error, data) {
       .call(d3.axisLeft(y));
 });
 
+// --------------- SECOND GRAPH --------------- //
 
 // set the dimensions and margins of the graph
-var margin2 = { top: 20, right: 20, bottom: 20, left: 20 },
+var margin2 = { top: 20, right: 20, bottom: 20, left: 50 },
   width2 = 500 - margin2.left - margin2.right,
   height2 = 250 - margin2.top - margin2.bottom;
 
@@ -63,11 +64,11 @@ var y2 = d3.scaleLinear().range([height2, 0]);
 // define the line
 var valueline2 = d3
   .line()
-  .x(function (d) {
-    return x(d.date);
+  .x(function (d2) {
+    return x2(d2.date); // Use x2 scale here
   })
-  .y(function (d) {
-    return y(d.movingAverage);
+  .y(function (d2) {
+    return y2(d2.movingAverage); // Use y2 scale here
   });
 
 // append the svg object to the "svgcontainerPrimary" div
@@ -103,11 +104,11 @@ d3.csv("temperature.csv", function (error, data2) {
   });
 
   // Scale the range of the data
-  x.domain(d3.extent(data2, function (d) {
-    return d.date;
+  x2.domain(d3.extent(data2, function (d2) {
+    return d2.date;
   }));
-  y.domain([0, d3.max(data2, function (d) {
-    return d.temperature;
+  y2.domain([0, d3.max(data2, function (d2) {
+    return d2.temperature;
   })]);
 
   // Add the valueline2 path.
@@ -119,10 +120,12 @@ d3.csv("temperature.csv", function (error, data2) {
 
   // Add the X Axis
   svg2.append("g")
-    .attr("transform", "translate(0," + height + ")")
+    .attr("transform", "translate(0," + height2 + ")") // Use height2 here
     .call(d3.axisBottom(x2));
 
   // Add the Y Axis
   svg2.append("g")
     .call(d3.axisLeft(y2));
+
+
 });

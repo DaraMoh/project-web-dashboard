@@ -32,14 +32,14 @@ d3.csv("temperature.csv", function (error, data) {
 
   // Format the data
   var parseDate = d3.timeParse("%Y-%m-%d");
-  data.forEach(function (d) {
-    d.date = parseDate(d.date);
-    d.temperature = +d.temperature;
+  data.forEach(function (d2) {
+    d2.date = parseDate(d2.date);
+    d2.temperature = +d2.temperature;
   });
 
   // Compute moving average
   var numDays = 7; // Number of days for the moving average
-  data.forEach(function (d, i) {
+  data.forEach(function (d2, i) {
     var start = Math.max(0, i - numDays);
     var end = i + 1;
     var sum = 0;
