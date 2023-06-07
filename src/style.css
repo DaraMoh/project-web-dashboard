@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+  }
+svg rect {
+  fill: gray;
+}
+
+.line {
+  fill: none;
+  stroke: green;
+  stroke-width: 5px;
+}
