@@ -1,8 +1,10 @@
 body {
     margin: 0;
   }
-svg rect {
-  fill: gray;
+
+#svgcontainer {
+  height: 200%;
+  fill: lightcoral;
 }
 
 .line {
