@@ -83,3 +83,8 @@ h1 {
   stroke: green;
   stroke-width: 2px;
 }
+
+.modal-body {
+  white-space: pre-line;
+  text-align: left;
+}

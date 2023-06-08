@@ -7,6 +7,7 @@
         <title>Web Dashboard - GROUP NAME</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/css/bootstrap.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0-beta3/js/bootstrap.min.js"></script>
         <script type = "text/javascript" src = "https://d3js.org/d3.v4.min.js"></script>
     </head>
@@ -56,9 +57,28 @@
                             <div id = "svgcontainerPrimary"></div>
 
 
-                            <p class="card-text">TEST 1 SUMMARY.</p>
-                            <a href="#" class="btn btn-link">Learn More</a>
-                        </div>
+                            <p class="card-text">TEST 1 SHORT SUMMARY.</p>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#firstLearnModal">Learn More</button>
+                            
+                            <div class="modal fade" id="firstLearnModal" tabindex="-1" role="dialog" aria-labelledby="firstLearnModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="firstLearnModal">Modal title</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    LONG DESCRIPTION
+                                    ...
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -69,11 +89,32 @@
                             <h5 class="card-title">TEST 2 TITLE</h5>
                             <!-- INSERT GRAPH HEREEEEEEEEEEEEEEEEEEEEEEEE -->
                             <div id = "svgcontainerSecondary"></div>
+                            <div id = "primaryTooltip"></div>
+
                             <script type = "text/javascript" src="script.js"></script>  
 
-
-                            <p class="card-text">TEST 2 SUMMARY.</p>
-                            <a href="#" class="btn btn-link">Learn More</a>
+                            <p class="card-text">TEST 2 SHORT SUMMARY.</p>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#secondLearnModal">Learn More</button>
+                            
+                            <div class="modal fade" id="secondLearnModal" tabindex="-1" role="dialog" aria-labelledby="secondLearnModal" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="secondLearnModal">Modal title</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                    LONG DESCRIPTION
+                                    ...
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> 
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
