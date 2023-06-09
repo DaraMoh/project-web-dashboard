@@ -28,10 +28,11 @@ body {
 .navbar-brand {
   font-size: 24px;
   font-weight: bold;
+  color: #d37013;
 }
 
 .navbar-nav .nav-link {
-  color: #fff;
+  color: #d37013;
   font-size: 18px;
   font-weight: bold;
   padding: 8px 15px;

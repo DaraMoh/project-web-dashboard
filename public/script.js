@@ -1,7 +1,21 @@
-// set the dimensions and margins of the graph
+// PRE-GRAPH CALCULATIONS
+// Determine current size, which determines vars
+var window_width = window.innerWidth, 
+window_height = window.innerHeight,
+current_ratio = window_width / window_height;
+
+// set the dimensions
 var margin = {top: 50, right: 50, bottom: 40, left: 50},
 width = 400 - margin.left - margin.right,
-height = 250 - margin.top - margin.bottom;
+height = 250 - margin.top - margin.bottom,
+default_ratio = width/height;
+
+// Check to see if dimensions are to be changed due to window size
+if (current_ratio < default_ratio) {
+  width = window_width - 50 - margin.right;
+  height = window_height - margin.top - margin.bottom - 330;
+}
+
 
 // set the ranges
 var x = d3.scaleTime().range([0, width]);
@@ -17,27 +31,13 @@ var svg = d3.select("#svgcontainerSecondary").append("svg")
    .attr("width", width + margin.left + margin.right) // determines width
    .attr("height", height + margin.top + margin.bottom) // determines height
    .append("g")
-   .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-   .on("mouseover", function(d) {
-    d3.select("#tooltipA")
-    .transition()
-    .duration(200)
-    .style("opacity", 1)
-    .text(d.population);
-   })
-   .on("mouseout", function(d) {
-    d3.select("#tooltipA").style("opacity", 0)
-   })
-   .on("mousemove", function(d) {
-    d3.select("#tooltipA")
-    .style("left", d3.event.pageX + "px")
-    .style("top", d3.event.pageY + "px")
-   });
+   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
 d3.csv("data.csv", function(error, data) {
    if (error) throw error;
-   // format the data
+   console.log(data); // Debug output to check the loaded data
+
    var parseDateA = d3.timeParse("%Y");
    data.forEach(function(d) {
       d.year = parseDateA(d.year);
@@ -79,22 +79,45 @@ d3.csv("data.csv", function(error, data) {
     .attr("y", height/2-50)
     .style("text-anchor", "middle")
     .text("Population (Millions)");
+
+    // Create the tooltip reference
+  var tooltipA = d3.select("#secondaryTooltip");
+
+  // Function to show the tooltip
+  function showTooltipA(event, d) {
+    tooltipA
+      .style("left", margin.left + "px")
+      .style("top", margin.top + "px")
+      .style("opacity", 1)
+      .html("Population: " + d.population); 
+  }
+
+  // Function to hide the tooltip
+  function hideTooltipA() {
+    tooltipA.style("opacity", 0);
+  }
+
+  // Add the data points as circles
+  svg.selectAll("circle")
+    .data(data)
+    .enter()
+    .append("circle")
+    .attr("cx", function (d) {
+      return x(d.year);
+    })
+    .attr("cy", function (d) {
+      return y(d.population);
+    })
+    .attr("r", 4) // Customize the radius of the circles as needed
+    .attr("fill", "steelblue")
+    .on("mouseover", function (event, d) {
+      showTooltipA(event, d);
+    })
+    .on("mouseout", function () {
+      hideTooltipA();
+    });
+  
 });
-
-
-// -------- FIRST GRAPH - TOOLTIP -------- //
-
-var tooltip = d3.select("#primaryTooltip")
-  .append("div")
-  .attr("id", "tooltipA")
-  .attr("style", "position: absolute; opacity: 0");
-
-
-
-
-
-
-
 
 
 
@@ -108,7 +131,15 @@ var tooltip = d3.select("#primaryTooltip")
 // set the dimensions and margins of the graph
 var margin2 = { top: 20, right: 20, bottom: 40, left: 50 },
   width2 = 500 - margin2.left - margin2.right,
-  height2 = 250 - margin2.top - margin2.bottom;
+  height2 = 250 - margin2.top - margin2.bottom,
+  default_ratio2 = width2/height2;
+
+// Check to see if dimensions are to be changed due to window size
+if (current_ratio > default_ratio2) {
+  width2 = window_width - 100 - margin2.right;
+  height2 = window_height - margin2.top - margin2.bottom - 330;
+}
+
 
 // set the ranges
 var x2 = d3.scaleTime().range([0, width2]);
@@ -181,6 +212,7 @@ d3.csv("temperature.csv", function (error, data2) {
   })]);
 
   xAxis = d3.axisBottom().scale(x2).tickFormat(d3.timeFormat("%b"));
+  var formatTime = d3.timeFormat("%b");
 
   // Add the valueline2 path.
   svg2.append("path")
@@ -200,6 +232,44 @@ d3.csv("temperature.csv", function (error, data2) {
   svg2.append("g")
     .call(d3.axisLeft(y2));
 
+  // Create the tooltip reference
+var tooltip = d3.select("#primaryTooltip");
+
+// Function to show the tooltip
+function showTooltip(event, d2) {
+  tooltip
+    .style("left", margin2.left + "px")
+    .style("top", margin2.top + "px")
+    .style("opacity", 1)
+    .html(formatTime(d2.date) + "<br/>" + d2.temperature);
+    //.html("Temperature: " + d2.temperature);
+  }
+
+// Function to hide the tooltip
+function hideTooltip() {
+  tooltip.style("opacity", 0);
+}
+
+// Add the data points as circles
+svg2.selectAll("circle")
+  .data(data2)
+  .enter()
+  .append("circle")
+  .attr("cx", function (d2) {
+    return x2(d2.date);
+  })
+  .attr("cy", function (d2) {
+    return y2(d2.movingAverage);
+  })
+  .attr("r", 4) // Customize the radius of the circles as needed
+  .attr("fill", "steelblue")
+  .on("mouseover", function (event, d2) {
+    showTooltip(event, d2);
+  })
+  .on("mouseout", function () {
+    hideTooltip();
+  });
+  
 
 
 });
