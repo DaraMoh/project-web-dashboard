@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import * as d3 from 'd3';
-import { makeGraph1, makeGraph2 } from './graphs.js';
+import { makeGraph1 } from './graphFirst.js';
+import { makeGraph2 } from './graphSecond.js';
 
 
 function App() {
