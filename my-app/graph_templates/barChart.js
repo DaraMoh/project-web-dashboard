@@ -1,12 +1,4 @@
-import * as d3 from 'd3';
-import dataset1 from './data/tourists.csv';
-
-// PRE-GRAPH CALCULATIONS - KEEP THESE IN YOUR CODE (used for all graphs)
-var window_width = window.innerWidth,
-  window_height = window.innerHeight,
-  current_ratio = window_width / window_height;
-
- export function makeGraph2() {
+export function makeBarChart() {
     // set the dimensions
     var margin = { top: 50, right: 50, bottom: 60, left: 50 },
       width = 550 - margin.left - margin.right,
@@ -20,7 +12,7 @@ var window_width = window.innerWidth,
     }
   
     // set the ranges
-    var x = d3.scaleLinear().range([0, width]);
+    var x = d3.scaleBand().range([0, width]).padding(0.1);
     var y = d3.scaleLinear().range([height, 0]);
   
     d3.select("#svgcontainerSecondary svg").remove();
@@ -46,30 +38,33 @@ var window_width = window.innerWidth,
       });
   
       // Scale the range of the data
-      x.domain(d3.extent(data, function(d) {
+      x.domain(data.map(function (d) {
         return d.year;
-      })).nice();
-      
-      y.domain(d3.extent(data, function(d) {
+      }));
+      y.domain([0, d3.max(data, function (d) {
         return d.tourists;
-      })).nice();
+      })]);
   
-      svg.selectAll("circle")
+      // Add the bars
+      svg.selectAll("rect")
         .data(data)
         .enter()
-        .append("circle")
-        .attr("cx", function(d) {
+        .append("rect")
+        .attr("x", function (d) {
           return x(d.year);
         })
-        .attr("cy", function(d) {
+        .attr("y", function (d) {
           return y(d.tourists);
         })
-        .attr("r", 4) // Adjust the radius of the circles as desired
+        .attr("width", x.bandwidth())
+        .attr("height", function (d) {
+          return height - y(d.tourists);
+        })
         .attr("fill", "steelblue")
-        .on("mouseover", function(d) {
+        .on("mouseover", function (d) {
           showTooltipA(d);
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
           hideTooltipA();
         });
   
@@ -103,22 +98,6 @@ var window_width = window.innerWidth,
         .style("text-anchor", "middle")
         .text("Tourists (Millions)");
   
-      // Add vertical grid lines
-      svg.append("g")
-      .attr("class", "grid")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x)
-        .tickSize(-height)
-        .tickFormat("")
-      );
-
-      // Add horizontal grid lines
-      svg.append("g")
-      .attr("class", "grid")
-      .call(d3.axisLeft(y)
-        .tickSize(-width)
-        .tickFormat("")
-      );
       // Create the tooltip reference
       var tooltipA = d3.select("#secondaryTooltip");
   

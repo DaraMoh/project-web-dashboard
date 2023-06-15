@@ -152,6 +152,8 @@ export function makeGraph1(){
 
   });
 
+
+  // function to refresh the graph dimensions on reaload
   /*
   // Function to update the SVG dimensions based on the container size
   function updateSvgDimensions() {
