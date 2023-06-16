@@ -1,16 +1,12 @@
-export function makelineGraph(){
-    // set the dimensions
-    var margin = {top: 50, right: 50, bottom: 40, left: 50},
-    width = 400 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom,
-    default_ratio = width/height;
-  
-    // Check to see if dimensions are to be changed due to window size
-    if (current_ratio < default_ratio) {
-      width = window_width - 50 - margin.right;
-      height = window_height - margin.top - margin.bottom - 330;
-    }
-  
+export function makeLineGraph(){
+    var container = document.getElementById("svgcontainerSecondary");
+    var containerWidth = container.clientWidth;
+    var containerHeight = container.clientHeight;
+
+    var margin = { top: 50, right: 50, bottom: 60, left: 50 };
+    var width = containerWidth - margin.left - margin.right;
+    var height = containerHeight - margin.top - margin.bottom;
+    
   
     // set the ranges
     var x = d3.scaleTime().range([0, width]);

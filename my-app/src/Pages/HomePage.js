@@ -3,7 +3,8 @@ import './../App.css';
 import { makeGraph1 } from './../graphFirst.js';
 import { makeGraph2 } from './../graphSecond.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import GraphPage from './GraphPage';
+import GraphPage1 from './GraphPage1';
+import GraphPage2 from './GraphPage2';
 
 
 function App() {
@@ -34,8 +35,7 @@ function App() {
               {/* INSERT GRAPH HEREEEEEEEEEEEEEEEEEEEEEEEE */}
               <div id="svgcontainerPrimary"></div>
               <div id="primaryTooltip" style={{ position: 'absolute', opacity: '0' }}></div>
-              <Link to="/graph-page" className="btn btn-link">View Full Graph</Link>
-              <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#firstExpand">Learn More</button>
+              <Link to="/graph-page1" className="btn btn-link">View Full Graph</Link>
 
               <p className="card-text">TEST 1 SHORT SUMMARY.</p>
               <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#firstLearnModal">Learn More</button>
@@ -70,7 +70,8 @@ function App() {
               {/* INSERT GRAPH HEREEEEEEEEEEEEEEEEEEEEEEEE */}
               <div id="svgcontainerSecondary"></div>
               <div id="secondaryTooltip" style={{ position: 'absolute', opacity: '0' }}></div>
-              <Link to="/graph-page" className="btn btn-link">View Full Graph</Link>
+              <Link to="/graph-page2" className="btn btn-link">View Full Graph</Link>
+              {/*} <button id="startButton">Start Animation</button> --     DOES NOT WORK, ASSOCIATED WITH FORCE DIRECTED GRAPH*/}
               <p className="card-text">TEST 2 SHORT SUMMARY.</p>
               <button type="button" className="btn btn-link" data-bs-toggle="modal" data-bs-target="#secondLearnModal">Learn More</button>
 
@@ -98,7 +99,8 @@ function App() {
         </div>
       </div>
       <Routes>
-      <Route path="/graph-page" element={<GraphPage />} />
+      <Route path="/graph-page1" element={<GraphPage1 />} />
+      <Route path="/graph-page2" element={<GraphPage2 />} />
     </Routes>
     </div>
   );

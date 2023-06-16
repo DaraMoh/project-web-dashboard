@@ -1,15 +1,11 @@
-export function makeGraph2() {
-  // set the dimensions
-  var margin = { top: 50, right: 50, bottom: 40, left: 50 },
-    width = 400 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom,
-    default_ratio = width / height;
+export function makePieChart() {
+  var container = document.getElementById("svgcontainerSecondary");
+  var containerWidth = container.clientWidth;
+  var containerHeight = container.clientHeight;
 
-  // Check to see if dimensions are to be changed due to window size
-  if (current_ratio < default_ratio) {
-    width = window_width - 50 - margin.right;
-    height = window_height - margin.top - margin.bottom - 330;
-  }
+  var margin = { top: 50, right: 50, bottom: 60, left: 50 };
+  var width = containerWidth - margin.left - margin.right;
+  var height = containerHeight - margin.top - margin.bottom;
 
   d3.select("#svgcontainerSecondary svg").remove();
 

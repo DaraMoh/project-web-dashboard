@@ -1,18 +1,15 @@
 import * as d3 from 'd3';
 import dataset from './data/temperature.csv'
 
-// PRE-GRAPH CALCULATIONS - KEEP THESE IN YOUR CODE (used for all graphs)
-var window_width = window.innerWidth, 
-window_height = window.innerHeight,
-current_ratio = window_width / window_height;
-
 export function makeGraph1(){
-  // set the dimensions and margins of the graph
-  var margin = { top: 50, right: 50, bottom: 40, left: 50 },
-    width = 600 - margin.left - margin.right,
-    height = 250 - margin.top - margin.bottom,
-    default_ratio2 = width/height;
-    
+  var container = document.getElementById("svgcontainerPrimary");
+  var containerWidth = container.clientWidth;
+  var containerHeight = container.clientHeight;
+
+  var margin = { top: 50, right: 50, bottom: 60, left: 50 };
+  var width = containerWidth - margin.left - margin.right;
+  var height = containerHeight - margin.top - margin.bottom;
+  
   var xAxis = 0;
 
   // set the ranges
