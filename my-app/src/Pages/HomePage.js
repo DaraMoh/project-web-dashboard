@@ -44,7 +44,7 @@ function App() {
                 <div className="modal-dialog" role="document">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title" id="firstLearnModal">Modal title</h5>
+                      <h5 className="modal-title" id="firstLearnModal">James' Modal title</h5>
                       <button type="button" className="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>

@@ -2,7 +2,6 @@ import * as d3 from 'd3';
 import dataset1 from './data/tourists.csv';
 
 export function makeGraph2() {
-  // Set the dimensions
   var container = document.getElementById("svgcontainerSecondary");
   var containerWidth = container.clientWidth;
   var containerHeight = container.clientHeight;
@@ -11,20 +10,48 @@ export function makeGraph2() {
   var width = containerWidth - margin.left - margin.right;
   var height = containerHeight - margin.top - margin.bottom;
 
-  // Set the ranges
+  // set the ranges
   var x = d3.scaleLinear().range([0, width]);
   var y = d3.scaleLinear().range([height, 0]);
 
   d3.select("#svgcontainerSecondary svg").remove();
 
-  // Append the SVG to the svgcontainerSecondary
+  // append the svg to the svgcontainerSecondary
   var svg = d3
     .select("#svgcontainerSecondary")
     .append("svg")
-    .attr("width", width + margin.left + margin.right) // Determines width
-    .attr("height", height + margin.top + margin.bottom) // Determines height
+    .attr("width", width + margin.left + margin.right) // determines width
+    .attr("height", height + margin.top + margin.bottom) // determines height
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var colorScale = d3.scaleThreshold()
+    .domain([-100, 0, 100]) // Updated domain with negative, zero, and positive values
+    .range(["darkred", "darkred", "green"]); // Updated range with specific colors
+  
+  
+
+  // Function to calculate change for coloring
+  function calculateChange(d, data) {
+    var currentYearIndex = data.findIndex(function (item) {
+      return item.year === d.year;
+    });
+
+    if (currentYearIndex > 0) {
+      var currentYearTourists = data[currentYearIndex].tourists;
+      var previousYearTourists = data[currentYearIndex - 1].tourists;
+      return ((currentYearTourists - previousYearTourists) / previousYearTourists) * 100;
+    }
+
+    return 0;
+  }
+
+  // Function to debug the color calculation
+  function debugColorCalculation(d, data) {
+    var change = calculateChange(d, data);
+    console.log("Year: " + d.year + ", Change: " + change + ", Color: " + colorScale(change));
+  }
+
 
   // Get the data
   d3.csv(dataset1, function (error, data) {
@@ -37,41 +64,35 @@ export function makeGraph2() {
       d.tourists = +d.tourists || 0;
     });
 
-    // Set the domain for x and y scales
-    var xMax = d3.max(data, function (d) {
-      return d.tourists;
-    });
-    var xMin = d3.min(data, function (d) {
-      return d.tourists;
-    });
-    x.domain([xMin, xMax]);
-    y.domain([0, data.length]);
+    // Scale the range of the data
+    x.domain(d3.extent(data, function (d) {
+      return d.year;
+    })).nice();
 
-    // Create histogram bins
-    var bins = d3.histogram()
-      .value(function (d) {
-        return d.tourists;
-      })
-      .thresholds(x.ticks(10))(data);
+    y.domain(d3.extent(data, function (d) {
+      return d.tourists;
+    })).nice();
 
-    // Add the bars
-    svg.selectAll("rect")
-      .data(bins)
+    // Debug the color calculation
+    data.forEach(function (d) {
+      debugColorCalculation(d, data);
+    });
+
+    svg.selectAll("circle")
+      .data(data)
       .enter()
-      .append("rect")
-      .attr("x", function (d) {
-        return x(d.x0);
+      .append("circle")
+      .attr("cx", function (d) {
+        return x(d.year);
       })
-      .attr("y", function (d) {
-        return y(d.length);
+      .attr("cy", function (d) {
+        return y(d.tourists);
       })
-      .attr("width", function (d) {
-        return x(d.x1) - x(d.x0);
+      .attr("r", 5) // Adjust the radius of the circles as desired
+      .attr("fill", function (d) {
+        var change = calculateChange(d, data); // Implement a function to calculate the change in tourists
+        return colorScale(change);
       })
-      .attr("height", function (d) {
-        return height - y(d.length);
-      })
-      .attr("fill", "steelblue")
       .on("mouseover", function (d) {
         showTooltipA(d);
       })
@@ -82,8 +103,8 @@ export function makeGraph2() {
     // Add the X Axis
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
-      .selectAll("text")
+      .call(d3.axisBottom(x).tickFormat(d3.format("d")))
+      .selectAll("text")  
       .style("text-anchor", "end")
       .attr("dx", "-.8em")
       .attr("dy", ".15em")
@@ -99,7 +120,7 @@ export function makeGraph2() {
       .style("font-size", "16px")
       .attr("y", height + 45)
       .style("text-anchor", "middle")
-      .text("Tourists (Millions)");
+      .text("Year");
 
     // Add the text for Y-axis
     const yLabel = svg.append("text")
@@ -107,7 +128,33 @@ export function makeGraph2() {
       .attr("x", 0)
       .attr("y", height / 2 - 50)
       .style("text-anchor", "middle")
-      .text("Frequency");
+      .text("Tourists (Millions)");
+
+    // Add vertical grid lines
+    svg.append("g")
+    .attr("class", "grid")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x)
+      .tickSize(-height)
+      .tickFormat("")
+    );
+
+    // Add horizontal grid lines
+    svg.append("g")
+    .attr("class", "grid")
+    .call(d3.axisLeft(y)
+      .tickSize(-width)
+      .tickFormat("")
+    );
+
+    // Add the graph title
+    const title = svg.append("text")
+      .attr("x", width / 2)
+      .attr("y", -20)
+      .attr("text-anchor", "middle")
+      .style("font-size", "18px")
+      .text("Number of Tourists Visiting NYC per Year"); 
+
 
     // Create the tooltip reference
     var tooltipA = d3.select("#secondaryTooltip");
@@ -118,7 +165,7 @@ export function makeGraph2() {
         .style("left", margin.left + "px")
         .style("top", margin.top + "px")
         .style("opacity", 1)
-        .html("Range: " + d.x0 + " - " + d.x1 + "<br/>Frequency: " + d.length);
+        .html(d.year + "<br/>" + "Tourists: " + d.tourists);
     }
 
     // Function to hide the tooltip
@@ -127,3 +174,7 @@ export function makeGraph2() {
     }
   });
 }
+
+
+
+

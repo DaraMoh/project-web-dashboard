@@ -34,3 +34,7 @@
     opacity: 0;
     pointer-events: none;
   }
+  
+  .grid line {
+    stroke-opacity: 0.3; /* Adjust the opacity value as desired */
+  }
