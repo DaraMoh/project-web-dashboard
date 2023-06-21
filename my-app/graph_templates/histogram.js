@@ -1,4 +1,4 @@
-export function makeHistogram() {
+export function makeHistogram2() {
   // Set the dimensions
   var container = document.getElementById("svgcontainerPrimary");
   var containerWidth = container.clientWidth;
