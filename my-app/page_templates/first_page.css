@@ -1,0 +1,142 @@
+
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+  }
+  
+  .container-fluid{
+    background-color: #838383;
+  }
+  
+  .bg-dark{
+    background-color: #838383;
+  }
+  
+  .container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .navbar {
+    background-color: #838383;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+  
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #d37013;
+  }
+  
+  .navbar-nav .nav-link {
+    color: #d37013;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 15px;
+  }
+  
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link:focus {
+    background-color: #555;
+  }
+  
+  h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .card-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .card-text {
+    font-size: 18px;
+  }
+  
+  .btn-link {
+    color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .btn-link:hover,
+  .btn-link:focus {
+    text-decoration: none;
+  }
+  
+  #svgcontainerPrimary,
+  #svgcontainerSecondary {
+    min-width: 100%;
+    min-height: 100%;
+  }
+  
+  .line {
+    fill: none;
+    stroke: green;
+    stroke-width: 2px;
+  }
+  
+  .modal-body {
+    white-space: pre-line;
+    text-align: left;
+  }
+  
+  #pie-chart-container path {
+    transition: fill-opacity 0.3s, stroke-width 0.3s;
+  }
+  
+  #pie-chart-container path:hover {
+    fill-opacity: 0.5;
+    stroke-width: 4;
+    stroke: white;
+  }
+  
+  #secondaryTooltip {
+    position: absolute;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+    white-space: nowrap;
+  }
+  
+  .grid line {
+    stroke: rgba(0, 0, 0, 0.1);
+    stroke-width: 1;
+    opacity: 0.5;
+  }
+  
+  
+  .collapse {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 3px solid #888888;
+    padding: 40px;
+    margin-bottom: 10px;
+    margin-top: 30px;
+  }
+  
+  .custom-list {
+    list-style-position: inside;
+    text-align: left;
+  }
+  
+  #aboutGroup {
+    text-align: left;
+  }
