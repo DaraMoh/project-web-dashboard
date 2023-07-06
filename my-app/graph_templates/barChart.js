@@ -1,4 +1,4 @@
-export function makeHistogram() {
+export function makeBarChart() {
   // Set the dimensions
   var container = document.getElementById("svgcontainerSecondary");
   var containerWidth = container.clientWidth;

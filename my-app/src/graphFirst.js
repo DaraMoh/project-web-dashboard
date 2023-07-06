@@ -33,36 +33,51 @@ export function makeGraph1() {
 
     // Parse the data
     data.forEach(function (d) {
-      d.tourists = d.tourists; // Assuming the tourists is already in the desired format
-      d.money = +d.money || 0;
+      d.year = d.year; // Assuming the year is already in the desired format
+      d.tourists = +d.tourists || 0;
     });
 
     // Set the domain for x and y scales
     var xMax = d3.max(data, function (d) {
-      return d.money;
+      return d.tourists;
     });
     var xMin = d3.min(data, function (d) {
-      return d.money;
+      return d.tourists;
     });
-    x.domain([xMin, 50000]);
-    y.domain([0, d3.max(data, function (d) { return d.length; })]);
+    x.domain([xMin, xMax]);
+    y.domain([0, data.length]);
 
-    // Generate kernel density estimate
-    var kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(200));
-    var density = kde(data.map(function (d) { return d.money; }));
+    // Create histogram bins
+    var bins = d3.histogram()
+      .value(function (d) {
+        return d.tourists;
+      })
+      .thresholds(x.ticks(10))(data);
 
-    // Create the area path
-    var area = d3.area()
-      .x(function (d) { return x(d[0]); })
-      .y0(height)
-      .y1(function (d) { return y(d[1]); });
-
-    // Add the area
-    svg.append("path")
-      .datum(density)
-      .attr("class", "area")
-      .attr("d", area)
-      .attr("fill", "steelblue");
+    // Add the bars
+    svg.selectAll("rect")
+      .data(bins)
+      .enter()
+      .append("rect")
+      .attr("x", function (d) {
+        return x(d.x0);
+      })
+      .attr("y", function (d) {
+        return y(d.length);
+      })
+      .attr("width", function (d) {
+        return x(d.x1) - x(d.x0);
+      })
+      .attr("height", function (d) {
+        return height - y(d.length);
+      })
+      .attr("fill", "steelblue")
+      .on("mouseover", function (d) {
+        showTooltipA(d);
+      })
+      .on("mouseout", function () {
+        hideTooltipA();
+      });
 
     // Add the X Axis
     svg.append("g")
@@ -84,7 +99,7 @@ export function makeGraph1() {
       .style("font-size", "16px")
       .attr("y", height + 45)
       .style("text-anchor", "middle")
-      .text("money (Millions)");
+      .text("Tourists (Millions)");
 
     // Add the text for Y-axis
     const yLabel = svg.append("text")
@@ -92,10 +107,10 @@ export function makeGraph1() {
       .attr("x", 0)
       .attr("y", height / 2 - 50)
       .style("text-anchor", "middle")
-      .text("Density");
+      .text("Frequency");
 
     // Create the tooltip reference
-    var tooltipA = d3.select("#primaryTooltip");
+    var tooltipA = d3.select("#PrimaryTooltip");
 
     // Function to show the tooltip
     function showTooltipA(d) {
@@ -111,20 +126,4 @@ export function makeGraph1() {
       tooltipA.style("opacity", 0);
     }
   });
-
-  // Kernel density estimation function
-  function kernelDensityEstimator(kernel, x) {
-    return function (sample) {
-      return x.map(function (x) {
-        return [x, d3.mean(sample, function (v) { return kernel(x - v); })];
-      });
-    };
-  }
-
-  // Epanechnikov kernel function
-  function kernelEpanechnikov(k) {
-    return function (v) {
-      return Math.abs(v /= k) <= 1 ? 0.75 * (1 - v * v) / k : 0;
-    };
-  }
 }
