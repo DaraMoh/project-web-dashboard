@@ -41,22 +41,7 @@ function App() {
       </div>
       <div className="container">
         <div className="row">
-          <div className = "col-md-6">
-            <div className="card">
-              <h3 id="group-h3">About our Group</h3>
-              <div className="text-center">
-                <img src={imageSrc} alt="Image" className="img-fluid" style={{ width: '100px' }} />
-              </div>
-              <div className="container" id="aboutGroup">
-                <ul className="custom-list">
-                  <li className="text-left">We think cats are better than dogs</li>
-                  <li className="text-left">We worked really hard</li>
-                  <li className="text-left">We are good people</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="row">
               <div className="col-md-12">
                 <div className="card">
@@ -93,6 +78,23 @@ function App() {
                 </div>
               </div>
             </div>
+          </div>
+          <div className = "col-md-4">
+            <div className="card">
+              <h3 id="group-h3">About our Group</h3>
+              <div className="text-center">
+                <img src={imageSrc} alt="Image" className="img-fluid" style={{ width: '100px' }} />
+              </div>
+              <div className="container" id="aboutGroup">
+                <ul className="custom-list">
+                  <li className="text-left">We think cats are better than dogs</li>
+                  <li className="text-left">We worked really hard</li>
+                  <li className="text-left">We are good people</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4">
             <div className="row">
               <div className="col-md-12">
                 <div className="card">

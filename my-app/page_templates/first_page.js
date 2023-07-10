@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import GraphPage1 from './GraphPage1';
 import GraphPage2 from './GraphPage2';
 import imageSrc from './../pineapple.png';
+import imageGraph from './../graph.png';
 
 
 function App() {
@@ -40,7 +41,7 @@ function App() {
         </div>
       </div>
       <div className="container">
-        <button className="btn btn-primary" type="button" onClick={togglePane}>
+        <button className="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#myPane" onClick={togglePane}>
           Toggle Pane
         </button>
         <div className="collapse" style={paneStyle} id="myPane">

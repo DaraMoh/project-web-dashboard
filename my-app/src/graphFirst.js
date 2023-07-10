@@ -7,7 +7,7 @@ export function makeGraph1() {
   var containerWidth = container.clientWidth;
   var containerHeight = container.clientHeight;
 
-  var margin = { top: 50, right: 50, bottom: 60, left: 50 };
+  var margin = { top: 50, right: 50, bottom: 120, left: 50 };
   var width = containerWidth - margin.left - margin.right;
   var height = containerHeight - margin.top - margin.bottom;
 
@@ -110,7 +110,7 @@ export function makeGraph1() {
       .text("Frequency");
 
     // Create the tooltip reference
-    var tooltipA = d3.select("#PrimaryTooltip");
+    var tooltipA = d3.select("#primaryTooltip");
 
     // Function to show the tooltip
     function showTooltipA(d) {
