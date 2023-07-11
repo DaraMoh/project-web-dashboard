@@ -1,3 +1,6 @@
+import * as d3 from 'd3';
+import dataset1 from './data/tourists.csv'
+
 export function makeAnimatedBarChart() {
   // set the dimensions
   var container = document.getElementById("svgcontainerSecondary");
