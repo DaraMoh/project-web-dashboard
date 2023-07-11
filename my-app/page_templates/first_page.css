@@ -46,9 +46,11 @@ body {
   }
   
   h1 {
-    font-size: 32px;
+    font-size: 56px;
     margin-bottom: 20px;
+    font-family: Palatino;
   }
+  
   
   .card {
     border: none;
