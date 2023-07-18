@@ -125,7 +125,7 @@ function App() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> {/* [CHANGE #20] - IF YOU DONT WANT LONG DESC, remove from line <div className="modal fade"> up to and including this line*/}
             </div>
           </div>
         </div>

@@ -1,20 +1,18 @@
 STEP 1: Set-up Repository
-** THIS GUIDE IS BASED ON THE ASSUMPTION THAT THE USER USES codesandbox.io. If you are going to use an IDE like Visual Studio Code, you may have to search online to understand how to utilize it. **
+** THIS GUIDE IS BASED ON THE ASSUMPTION THAT THE USER USES Visual Studio AND Docker Desktop. If you are planning to use another IDE, you will have to adjust accordingly **
 
-1) Log into Github, then fork this repository (click on the *Fork* button). This will allow you to make an editable version for your own use.
+1) Download the tarball (project_web_dashboard.tar). 
 
-2) Log into codesandbox.io (free plan is good). Link your codesandbox.io account with Github, then click on *import repository* and select the forked repository.
+2) Log into Docker, and on your computer's terminal run "docker load -i project_web_dashboard". This will import a Docker image to your machine.
 
-3) Run these commands on the terminal at the bottom of the page:
- - npm install react
- - npm install react-router-dom
- - npm install d3
+3) Now, run "docker run -d -p 3000:3000 project_web_dashboard". This will run the example project on "http://localhost:3000". Now, you are ready to work.
 
-4) Run these commands to launch the project.
- - cd my-app
- - npm start
+4) Create a folder on your computer. This will be your working directory, where you will be editing the code from the container.  
 
-5) You can now edit the code whenever you want, and just Ctrl+S to save the code (with the webpage auto-updating)
+5) Now, you must mount the Docker container to the directory. Open your terminal, and write the following code
+-> "docker run -d --name <container_name> -v /path/to/your/local/directory:/path/inside/container <image_name>"
+   Replace <container_name> with the desired name for the new container, <image_name> with the name of the Docker image you want to run, and /path/to/your/local/directory with the path to the working directory you created in step 4. The /path/inside/container should be the path to the directory inside the container where the code should reside.
+
 
 -----------------------------------------
 
