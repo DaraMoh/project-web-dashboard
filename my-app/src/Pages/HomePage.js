@@ -8,7 +8,8 @@ import GraphPage2 from './GraphPage2';
 import imageSrc from './../teamIMG.png'; // CHANGE #1 - change to route to your teamIMG (for the About Us tab)
 import imageGraph from './../graph1.png'; // CHANGE #2 - if you want to add an img to your graph for FIRST TEST, add it as graph1.png
 import imageGraph2 from './../graph2.png'; // CHANGE #3 - if you want to add an img to your graph for SECOND TEST, add it as graph2.png
-
+import intVideo from './../media/intVideo.mp4';
+import YouTube from 'react-youtube'; 
 
 function App() {
   useEffect(() => {
@@ -28,6 +29,9 @@ function App() {
     overflow: 'hidden',
   };
 
+  // ADD YOUTUBE - Add youtube video ID if you want to embed a youtube video
+  const youtubeVideoId = 'CpKvAs6z590'; // Replace this with the ID of the YouTube video you want to embed
+
   return (
     <div className="container text-center">
       <div className="row">
@@ -37,6 +41,11 @@ function App() {
             <div className="card-body">
               <h5 className="card-title">GROUP TOPIC</h5> {/* [CHANGE #5] - Insert name of your group topic */}
               <p className="card-text">GROUP HYPOTHESIS.</p> {/* [CHANGE #6] - Insert your hypothesis, or anything you deem appropriate here*/}
+              
+              
+              {/* [ADD VIDEO] - If you want a youtube video, replace the line below with the line found in README.md under *YouTube* */}
+              <video src={intVideo} controls className="img-fluid" style={{ width: '30%' }} />
+
             </div>
           </div>
         </div>

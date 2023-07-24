@@ -84,10 +84,35 @@ This makes it so that your tooltip will ONLY show the time, not the date. If you
 
 8) If you wish to add more customizations (such as 2 different lines in the same line graph, or different colored sections of the graph based on date), you have to try and add them yourself through searching on google or using ChatGPT (the use of ChatGPT is generally discouraged in studying, but since this is a side assignment it's most likely acceptable). You will have to copy your code into ChatGPT for it to give you a correct response, but usually the response is good.
 
+-----------------------------------------
+
+**GRAPHS INFO**
+Currently, there are only a few incorporated graphs. These include:
+- a bar chart (either animated, which includes constant changing from ascending to descending, or stationary)
+- a histogram (you can add a max value by editing the code if there are any index issues)
+- a line graph (to add another graph, simply ask chatGPT or do it yourself)
+- a pie chart 
+- a scatter plot
+
+In order to customize the graphs (such as coloring the lines or the scatterplot points or anything like that), I would recommend using ChatGPT. Just copy the code into it, and then ask it what you want. For example: https://imgur.com/f2RHfre
 
 -----------------------------------------
 
-**GRAPH TO IMAGE**
+**ADD DOWNLOADED VIDEO**
+- To add a downloaded video, you must add this line next to the import functions at the top: import intVideo from './../media/intVideo.mp4';
+- Replace the path with whatever the path to your video is (I recommend putting it in the media folder, then change the name)
+- Go to the *ADD VIDEO* section, and add this line: <video src={intVideo} controls className="img-fluid" style={{ width: '30%' }} />
+- Replace intVideo with whatever the name of the *import* was you imported in step 1
+ 
+
+**ADD YOUTUBE VIDEO**
+- If you want to add a youtube video, go to the section in the *page* file and find the  *ADD VIDEO* section
+- Add the following code: <YouTube videoId={youtubeVideoId} opts={{ width: '30%' }} /> 
+- Find the *ADD YOUTUBE* section, and change the quoted value with the video ID (found in the URL between "watch?v=" and "&ab") 
+
+-----------------------------------------
+
+**CHANGE GRAPH TO IMAGE**
 - If you want to remove the graphs, go to the divs labeled "svgcontainerPrimary" and "svgcontainerSecondary" and remove whichever you want (whether it be primary for test 1, or secondary for test 2). Then, insert the following lines based on which you removed:
 
 <div className="graph1-container">

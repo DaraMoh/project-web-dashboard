@@ -5,8 +5,9 @@ import './../style.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import GraphPage1 from './GraphPage1';
 import GraphPage2 from './GraphPage2';
-import imageSrc from './../pineapple.png';
-import imageGraph from './../graph.png';
+import imageSrc from './../teamIMG.png'; // CHANGE #1 - change to route to your teamIMG (for the About Us tab)
+import imageGraph from './../graph1.png'; // CHANGE #2 - if you want to add an img to your graph for FIRST TEST, add it as graph1.png
+import imageGraph2 from './../graph2.png'; // CHANGE #3 - if you want to add an img to your graph for SECOND TEST, add it as graph2.png
 
 
 function App() {
