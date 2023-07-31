@@ -42,7 +42,10 @@ function App() {
               <h5 className="card-title">GROUP TOPIC</h5> {/* [CHANGE #5] - Insert name of your group topic */}
               <p className="card-text">GROUP HYPOTHESIS.</p> {/* [CHANGE #6] - Insert your hypothesis, or anything you deem appropriate here*/}
               
-              
+              <div className="intro-image">
+                <img src={imageGraph} alt="Image" className="img-fluid" style={{ width: '30px' }} />
+              </div>
+
               {/* [ADD VIDEO] - If you want a youtube video, replace the line below with the line found in README.md under *YouTube* */}
               <video src={intVideo} controls className="img-fluid" style={{ width: '30%' }} />
 

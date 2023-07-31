@@ -1,129 +1,111 @@
 import * as d3 from 'd3';
-import dataset1 from './data/sales.csv'
+import dataset1 from './data/tourists.csv'
 
 export function makeGraph1() {
-  // Set the dimensions
   var container = document.getElementById("svgcontainerPrimary");
   var containerWidth = container.clientWidth;
   var containerHeight = container.clientHeight;
 
-  var margin = { top: 50, right: 50, bottom: 120, left: 50 };
+  var margin = { top: 50, right: 50, bottom: 60, left: 50 };
   var width = containerWidth - margin.left - margin.right;
   var height = containerHeight - margin.top - margin.bottom;
 
-  // Set the ranges
-  var x = d3.scaleLinear().range([0, width]);
-  var y = d3.scaleLinear().range([height, 0]);
-
   d3.select("#svgcontainerPrimary svg").remove();
 
-  // Append the SVG to the svgcontainerPrimary
+  // append the svg to the svgcontainerPrimary
   var svg = d3
     .select("#svgcontainerPrimary")
     .append("svg")
-    .attr("width", width + margin.left + margin.right) // Determines width
-    .attr("height", height + margin.top + margin.bottom) // Determines height
+    .attr("width", width + margin.left + margin.right) // determines width
+    .attr("height", height + margin.top + margin.bottom) // determines height
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")");
+
+  // Create the tooltip reference
+  var tooltipA = d3.select("#primaryTooltip");
+
+  // Function to show the tooltip
+function showTooltipA(d) {
+  tooltipA.html(d)  
+  .style("left", ((d3.event.pageX)) + "px")     
+  .style("top", (d3.event.pageY) + "px")
+  .style("opacity", 1)
+}
+
+
+  // Function to hide the tooltip
+  function hideTooltipA() {
+    tooltipA.style("opacity", 0);
+  }
 
   // Get the data
   d3.csv(dataset1, function (error, data) {
     if (error) throw error;
     console.log(data); // Debug output to check the loaded data
 
-    // Parse the data
+    // Parse the year as a Date object
+    var parseDate = d3.timeParse("%Y");
     data.forEach(function (d) {
-      d.year = d.year; // Assuming the year is already in the desired format
+      d.year = parseDate(d.year);
       d.tourists = +d.tourists || 0;
     });
 
-    // Set the domain for x and y scales
-    var xMax = d3.max(data, function (d) {
+    // Set up a color scale for the pie slices
+    var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+    // Set up a pie generator
+    var pie = d3.pie().value(function (d) {
       return d.tourists;
     });
-    var xMin = d3.min(data, function (d) {
-      return d.tourists;
-    });
-    x.domain([xMin, xMax]);
-    y.domain([0, data.length]);
 
-    // Create histogram bins
-    var bins = d3.histogram()
-      .value(function (d) {
-        return d.tourists;
-      })
-      .thresholds(x.ticks(10))(data);
+    // Calculate the radius of the pie chart
+    var radius = Math.min(width, height) / 2;
 
-    // Add the bars
-    svg.selectAll("rect")
-      .data(bins)
-      .enter()
-      .append("rect")
-      .attr("x", function (d) {
-        return x(d.x0);
-      })
-      .attr("y", function (d) {
-        return y(d.length);
-      })
-      .attr("width", function (d) {
-        return x(d.x1) - x(d.x0);
-      })
-      .attr("height", function (d) {
-        return height - y(d.length);
-      })
-      .attr("fill", "steelblue")
-      .on("mouseover", function (d) {
-        showTooltipA(d);
-      })
-      .on("mouseout", function () {
-        hideTooltipA();
+    // Generate the pie slices
+    var pieData = pie(data);
+
+    // Set up an arc generator for the pie slices
+    var arc = d3
+      .arc()
+      .innerRadius(0)
+      .outerRadius(function (d) {
+        return d.data.highlighted ? radius * 1.1 : radius;
       });
 
-    // Add the X Axis
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .style("text-anchor", "end")
-      .attr("dx", "-.8em")
-      .attr("dy", ".15em")
-      .attr("transform", "rotate(-65)");
+    
+    // Append the pie slices to the SVG
+    var slices = svg
+    .selectAll("path")
+    .data(pieData)
+    .enter()
+    .append("path")
+    .attr("d", arc)
+    .attr("fill", function (d, i) {
+      return colorScale(i);
+    })
+    .attr("stroke", "white")
+    .attr("stroke-width", 2)
+    .attr("fill-opacity", 1) // Set initial fill opacity to 1
+    .on("mouseover", function (d, i) {
+      // Reduce the fill opacity of all slices except the hovered one
+      slices
+        .filter(function (_, index) {
+          return index !== i;
+        })
+        .attr("fill-opacity", 0.2);
 
-    // Add the Y Axis
-    svg.append("g")
-      .call(d3.axisLeft(y));
+      // Increase the stroke width and change the stroke color of the hovered slice
+      d3.select(this)
+        .attr("stroke-width", 4)
+        .attr("stroke", "white");
 
-    // Add the text for X-axis
-    const xLabel = svg.append("text")
-      .attr("x", width / 2)
-      .style("font-size", "16px")
-      .attr("y", height + 45)
-      .style("text-anchor", "middle")
-      .text("Tourists (Millions)");
+      showTooltipA.call(this, d); // Pass the current slice as the context for the tooltip
+    })
+    .on("mouseout", function () {
+      // Restore the fill opacity and stroke styles of all slices
+      slices.attr("fill-opacity", 1).attr("stroke-width", 2).attr("stroke", "white");
 
-    // Add the text for Y-axis
-    const yLabel = svg.append("text")
-      .attr("transform", "rotate(-90,15," + (height / 2) + ")")
-      .attr("x", 0)
-      .attr("y", height / 2 - 50)
-      .style("text-anchor", "middle")
-      .text("Frequency");
-
-    // Create the tooltip reference
-    var tooltipA = d3.select("#primaryTooltip");
-
-    // Function to show the tooltip
-    function showTooltipA(d) {
-      tooltipA
-        .style("left", margin.left + "px")
-        .style("top", margin.top + "px")
-        .style("opacity", 1)
-        .html("Range: " + d.x0 + " - " + d.x1 + "<br/>Frequency: " + d.length);
-    }
-
-    // Function to hide the tooltip
-    function hideTooltipA() {
-      tooltipA.style("opacity", 0);
-    }
+      hideTooltipA();
+    });
   });
 }
