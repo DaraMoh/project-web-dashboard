@@ -27,9 +27,10 @@ export function makeGraph1() {
   // Function to show the tooltip
 function showTooltipA(d) {
   tooltipA.html(d)  
-  .style("left", ((d3.event.pageX)) + "px")     
-  .style("top", (d3.event.pageY) + "px")
+  .style("left", ((margin.left)) + "px")     
+  .style("top", (margin.right) + "px")
   .style("opacity", 1)
+  .html("Year: " + d.data.year.getFullYear() + "<br/>Average Tourists: " + d.data.tourists);
 }
 
 
@@ -99,7 +100,7 @@ function showTooltipA(d) {
         .attr("stroke-width", 4)
         .attr("stroke", "white");
 
-      showTooltipA.call(this, d); // Pass the current slice as the context for the tooltip
+      showTooltipA(d); // Pass the current slice as the context for the tooltip
     })
     .on("mouseout", function () {
       // Restore the fill opacity and stroke styles of all slices
